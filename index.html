@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crud</title>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/all.min.css">
+    <link rel="stylesheet" href="./css/v4-shims.min.css">
+</head>
+
+<body>
+
+
+    <div class="container">
+        <h1 class="text-center">Crud</h1>
+        <div class="post">
+            <div>
+                <div class="mb-3">
+                    <label for="prouductName" class="form-label">Prouduct Name</label>
+                    <input type="text" class="form-control" id="prouductName" placeholder="Prouduct Name">
+                </div>
+                <div class="mb-3">
+                    <label for="prouductPrice" class="form-label">Prouduct Price</label>
+                    <input type="text" class="form-control" id="prouductPrice" placeholder="Prouduct Price">
+                </div>
+                <div class="mb-3">
+                    <label for="productCategory" class="form-label">Prouduct Category</label>
+                    <input type="text" class="form-control" id="productCategory" placeholder="Prouduct Category">
+                </div>
+                <div class="mb-3">
+                    <label for="productColor" class="form-label">Available Colors</label>
+                    <select id="productColor" class="form-select" multiple>
+                        <option selected>Select your Colors</option>
+                        <option value="red">Red</option>
+                        <option value="green">Green</option>
+                        <option value="blue">Blue</option>
+                        <option value="black">black</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="productImg" class="form-label">Product Image</label>
+                    <input class="form-control" type="file" id="productImg">
+                </div>
+                <div class="mb-3 img-prev" style="display: none;">
+                    <span class="h6"">Preview</span><br>
+                    <img id="imgPrev" class="img-thumbnail w-25" src="" alt="">
+                </div>
+                <button id="addProduct" class="btn btn-primary ">Add Product</button>
+                <div class="msg text-center"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div id="content" class="my-5">
+            <div class="d-flex justify-content-center">
+                <div class="mb-3 text-center">
+                    <label for="search" class="form-label">search</label>
+                    <input class="form-control" type="text" id="search">
+                </div>
+            </div>
+            <div id="products" class="row mx-0 gy-4">
+            </div>
+        </div>
+    </div>
+    <script src="./js/bootstrap.bundle.min.js"></script>
+    <script src="./js/main.js"></script>
+</body>
+
+</html>
