@@ -161,7 +161,7 @@ function displayProducts(productList, searchTerm = '') {
                 
                 </div>
                 <div class="card-img"> 
-                <img class="img-fluid ratio-16x9" src="${productList[i].img || '../img/1.jpg'}" alt=""> </div>
+                <img style="height:150px; object-fit:contain;" class="w-100 " src="${productList[i].img || '../img/1.jpg'}" alt=""> </div>
                 <div class="card-body pt-5">
                     <div class="text-center"><div class="fw-bold">${productList[i].category}</div></div>
                     <div class="text-muted text-center mt-auto">Available Colors</div>
