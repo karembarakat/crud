@@ -10,6 +10,7 @@ let imgPrev = document.getElementById("imgPrev");
 let imgContainer = document.querySelector(".img-prev");
 let msgContainer = document.querySelector(".msg");
 let search = document.getElementById("search");
+
 let productList = [];
 
 
@@ -32,8 +33,8 @@ if (localStorage.getItem("productList") != null) {
 
 // Add product
 function addProduct() {
-    let errors = []; // Collect all errors
-    msgContainer.innerHTML = ''; // Clear previous messages
+    let errors = []; 
+    msgContainer.innerHTML = ''; 
 
     // Name validation
     if (Pname.value.trim() === "") {
@@ -50,9 +51,9 @@ function addProduct() {
         }
     }
 
-    // Category validation
+    // Description validation
     if (Pcat.value.trim() === "") {
-        errors.push("Category is required");
+        errors.push("Description is required");
     }
 
     // Color validation
@@ -80,9 +81,10 @@ function addProduct() {
         return false;
     }
 
-    // If validation passes, continue with product addition
     msgContainer.innerHTML = `<h5 class='text-success'>Product is added</h5>`;
+
     let productList = JSON.parse(localStorage.getItem("productList")) || [];
+    // Create Dynamic ID for each product
     let productID = productList.length > 0 ? productList[productList.length - 1].id + 1 : 1;
 
     let product = {
@@ -155,17 +157,21 @@ function displayProducts(productList, searchTerm = '') {
         product += `
         <div class="col-lg-4 col-md-6" data-id="${productList[i].id}">
             <div class="card d-flex flex-column align-items-center">
-                <div class="product-name my-3"><h2 class="h5">${displayName}</h2></div>
+                <div class="product-name my-3"><h2 class="h5">${displayName}</h2>
+                
+                </div>
                 <div class="card-img"> 
                 <img class="img-fluid ratio-16x9" src="${productList[i].img || '../img/1.jpg'}" alt=""> </div>
                 <div class="card-body pt-5">
+                    <div class="text-center"><div class="fw-bold">${productList[i].category}</div></div>
                     <div class="text-muted text-center mt-auto">Available Colors</div>
                     <div class="d-flex align-items-center justify-content-center colors my-2 flex-column">
                         <div class="colors d-flex align-items-center">
                             ${colors.map(color => `<div style="background-color:${color}" class="color-circle p-3 me-1 rounded-circle"></div>`).join('')} 
                             </div>
-                        <div class="d-flex align-items-center price">
-                            <div class="fw-bold">${productList[i].price} Egp</div>
+                        <div class="d-flex flex-column align-items-center price">
+                            <div class="fw-bold ">${productList[i].price} Egp</div>
+                            
                         </div>
                         <div class="d-flex align-items-center">
                             <button class="btn btn-edit" data-id="${productList[i].id}">
@@ -246,8 +252,6 @@ function removeProduct(id) {
 
         productList.splice(current, 1);
     }
-
-
     localStorage.setItem("productList", JSON.stringify(productList));
     displayProducts(productList);
 }
@@ -261,4 +265,5 @@ function resetForm() {
     imgPrev.src = "";
     imgContainer.style.display = "none";
     addProd.textContent = "Add Product"; // Reset button text
+
 }
