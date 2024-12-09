@@ -32,49 +32,56 @@ if (localStorage.getItem("productList") != null) {
 
 // Add product
 function addProduct() {
+    let errors = []; // Collect all errors
+    msgContainer.innerHTML = ''; // Clear previous messages
 
-    let isValid = true;
-    msgContainer.innerHTML = '';
+    // Name validation
+    if (Pname.value.trim() === "") {
+        errors.push("Product name is required");
+    }
 
-    // Make sure all fields not empty
-    function isEmpty() {
-        if (Pname.value === "" || Pprice.value === "" || Pcat.value === "" || Pcolor.selected === "" || Pimg.value === "") {
-            return false;
-        } else {
-            return true;
+    // Price validation
+    if (Pprice.value.trim() === "") {
+        errors.push("Price is required");
+    } else {
+        const price = Number(Pprice.value);
+        if (isNaN(price) || price < 6000 || price > 60000) {
+            errors.push("Price must be between 6000 and 60000");
         }
     }
 
-    if (isEmpty() == false) {
-        msgContainer.innerHTML = "<h5 class='text-danger'>All inputs are required</h5>";
+    // Category validation
+    if (Pcat.value.trim() === "") {
+        errors.push("Category is required");
+    }
+
+    // Color validation
+    const selectedColors = getSelectedColors();
+    if (selectedColors.length === 0) {
+        errors.push("Please select at least one color");
+    }
+
+    // Image validation
+    if (!Pimg.files || Pimg.files.length === 0) {
+        errors.push("Image is required");
+    } else {
+        const file = Pimg.files[0];
+        const validImageTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/bmp', 'image/webp'];
+        if (!validImageTypes.includes(file.type)) {
+            errors.push("Invalid image type. Must be jpg, png, gif, bmp, or webp");
+        }
+    }
+
+    // Display errors or proceed
+    if (errors.length > 0) {
+        msgContainer.innerHTML = errors.map(error =>
+            `<h5 class='text-danger'>${error}</h5>`
+        ).join('');
         return false;
     }
-    // Image 
-    const imageRegex = /\.(jpg|jpeg|png|gif|bmp|webp)$/i;
-    if (!imageRegex.test(Pimg.name)) {
-        isValid = false;
-        msgContainer.innerHTML = `Uploaded file must be an image (jpg, jpeg, png, gif, bmp, webp)`;
-    }
 
-    // Price
-    const priceRegex = /^(6000|[6-9][0-9]{3}|[1-5][0-9]{4}|60000)$/;
-    if (!priceRegex.test(Pprice.value)) {
-        isValid = false;
-        msgContainer.innerHTML = "<h5 class='text-danger'>Price must be more than 6000 and less than 60000</h5>";
-        
-    }
-    if (Pcolor.length === 0 || Pcolor[0] === 'Select your Colors') {
-        isValid = false;
-        msgContainer.innerHTML = `<h5 class='text-danger'>Please select at least one color.</h5>`;
-
-    }
-    // Product Is Valid
-    if (isValid) {
-   
-        msgContainer.innerHTML = `<h5 class='text-success'>Proudct is added</h5>`;
-        
-    }
-
+    // If validation passes, continue with product addition
+    msgContainer.innerHTML = `<h5 class='text-success'>Product is added</h5>`;
     let productList = JSON.parse(localStorage.getItem("productList")) || [];
     let productID = productList.length > 0 ? productList[productList.length - 1].id + 1 : 1;
 
