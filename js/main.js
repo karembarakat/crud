@@ -11,7 +11,6 @@ let imgContainer = document.querySelector(".img-prev");
 let msgContainer = document.querySelector(".msg");
 let search = document.getElementById("search");
 
-let productList = [];
 
 
 
@@ -26,11 +25,12 @@ Pimg.addEventListener("change", function () {
     }
 });
 
-if (localStorage.getItem("productList") != null) {
-    productList = JSON.parse(localStorage.getItem("productList"));
+let productList = JSON.parse(localStorage.getItem("productList")) || [];
+
+// Check if there are products and display them
+if (productList.length > 0) {
     displayProducts(productList);
 }
-
 // Add product
 function addProduct() {
     let errors = []; 
@@ -81,10 +81,8 @@ function addProduct() {
         return false;
     }
 
-    msgContainer.innerHTML = `<h5 class='text-success'>Product is added</h5>`;
+    
 
-    let productList = JSON.parse(localStorage.getItem("productList")) || [];
-    // Create Dynamic ID for each product
     let productID = productList.length > 0 ? productList[productList.length - 1].id + 1 : 1;
 
     let product = {
@@ -96,7 +94,7 @@ function addProduct() {
         img: Pimg.files[0] ? imgPrev.src : ""
     }
 
-    const existingProductIndex = productList.findIndex(p => p.id === Number(addProd.getAttribute('data-edit-id')));
+    const existingProductIndex = productList.findIndex(p => p.id === Number(addProd.getAttribute('data-id')));
 
     if (existingProductIndex !== -1) {
         // Update existing product
@@ -109,7 +107,8 @@ function addProduct() {
     localStorage.setItem("productList", JSON.stringify(productList));
     displayProducts(productList);
     resetForm();
-    addProd.removeAttribute('data-edit-id');
+    addProd.removeAttribute('data-id');
+    msgContainer.innerHTML = `<h5 class='text-success'>Product is added</h5>`;
 }
 
 addProd.addEventListener("click", addProduct);
@@ -240,7 +239,7 @@ function pushToform(id) {
             imgContainer.style.display = "none";
         }
         addProd.textContent = "Update Product";
-        addProd.setAttribute('data-edit-id', id);
+        addProd.setAttribute('data-id', id);
     }
 }
 
